@@ -32,8 +32,18 @@ app.post("/api/songs", async (req, res) => {
 
 // api/songs (Insert song)
 
+app.get("/api/songs", async (_req, res) => {
+    const rows = await Song.find().sort({ createdAt: -1 });
+    res.json(rows);
+});
+
 // /api/songs/:id (Update song)
 
+app.get("/api/songs/:id", async (req, res) => {
+    const s = await Song.findById(req.params.id);
+    if (!s) return res.status(404).json({ message: "Song not found" });
+    res.json(s);
+});
 
 // /api/songs/:id (Delete song)
 
